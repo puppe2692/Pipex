@@ -6,7 +6,7 @@
 /*   By: nwyseur <nwyseur@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 10:57:35 by nwyseur           #+#    #+#             */
-/*   Updated: 2023/02/15 17:02:45 by nwyseur          ###   ########.fr       */
+/*   Updated: 2023/02/15 19:09:35 by nwyseur          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@
 typedef struct s_pipex
 {
 	int		pfd[2];
-	pid_t	pid;
+	pid_t	pid1;
+	pid_t	pid2;
 	int		infd;
 	int		outfd;
 	char	**path;
