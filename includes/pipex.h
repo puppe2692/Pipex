@@ -6,7 +6,7 @@
 /*   By: nwyseur <nwyseur@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 10:57:35 by nwyseur           #+#    #+#             */
-/*   Updated: 2023/02/16 16:25:27 by nwyseur          ###   ########.fr       */
+/*   Updated: 2023/02/16 18:30:53 by nwyseur          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@
 # include <stdio.h>
 # include <limits.h>
 # include <sys/wait.h>
-
 
 # define ERROR_OPE "Open infile Error"
 # define ERROR_OPEN "Open outfile Error"
@@ -50,7 +49,13 @@ typedef struct s_pipex
 }	t_pipex;
 
 /* fonctions */
-// void	child_process(int file, char **cmd, int *pfd, char **envp);
+void	ft_pipex(t_pipex *pipex, char **argv, char **envp);
+void	ft_childistrib(t_pipex *pipex, char *argv, char **envp,
+			void (*pf)(t_pipex *, char **, char **));
+void	first_child_process(t_pipex *pipex, char **cmd, char **envp);
+void	second_child_process(t_pipex *pipex, char **cmd, char **envp);
+char	*ft_verifpath(t_pipex *pipex, char **cmd);
+char	*ft_findpath(char **envp);
 char	*ft_findpath(char **envp);
 
 /* fonctions free & error*/
