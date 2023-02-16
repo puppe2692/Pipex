@@ -6,7 +6,7 @@
 /*   By: nwyseur <nwyseur@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 10:56:29 by nwyseur           #+#    #+#             */
-/*   Updated: 2023/02/15 17:57:45 by nwyseur          ###   ########.fr       */
+/*   Updated: 2023/02/16 16:26:38 by nwyseur          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,49 +19,86 @@ char	*ft_findpath(char **envp)
 	return (*envp + 5);
 }
 
-
-void	first_child_process(int file, char **cmd, int *pfd, char **envp)
+char	*ft_verifpath(t_pipex *pipex, char **cmd)
 {
-	if (dup2(file, STDIN_FILENO) < 0) //file devient le nouveau STDIN;
-		ft_error(ERROR_DUP);
-	if (dup2(pfd[1], STDOUT_FILENO) < 0)
-		ft_error(ERROR_DUP);
-	close(pfd[0]);
-	close(file);
+	int		i;
+	char	*cmd1;
+	char	*tmp;
+
+	tmp = ft_strjoin(pipex->path[0], "/");
+	cmd1 = ft_strjoin(tmp, cmd[0]);
+	i = 1;
+	while (access(cmd1, F_OK) != 0 && pipex->path[i] != NULL)
+	{
+		tmp = ft_strjoin(pipex->path[i], "/");
+		cmd1 = ft_strjoin(tmp, cmd[0]);
+		i++;
+	}
+	if (pipex->path[i] == NULL)
+		ft_error(ERROR_CMD);
+	return (cmd1);
 }
 
-void	second_child_process(int file, char **cmd, int *pfd, char **envp)
+
+void	first_child_process(t_pipex *pipex, char **cmd, char **envp)
 {
-	if (dup2(file, STDIN_FILENO) < 0) //file devient le nouveau STDIN;
+	char	*cmd1;
+
+	if (dup2(pipex->infd, STDIN_FILENO) < 0)
 		ft_error(ERROR_DUP);
-	if (dup2(pfd[1], STDOUT_FILENO) < 0)
+	if (dup2(pipex->pfd[1], STDOUT_FILENO) < 0)
 		ft_error(ERROR_DUP);
-	close(pfd[0]);
-	close(file);
+	close(pipex->pfd[0]);
+	close(pipex->infd);
+	cmd1 = ft_verifpath(pipex, cmd);
+	if (execve(cmd1, cmd, envp) < 0)
+		ft_error(ERROR_EXECVE);
+}
+
+void	second_child_process(t_pipex *pipex, char **cmd, char **envp)
+{
+	char	*cmd2;
+
+	if (dup2(pipex->pfd[0], STDIN_FILENO) < 0)
+		ft_error(ERROR_DUP);
+	if (dup2(pipex->outfd, STDOUT_FILENO) < 0)
+		ft_error(ERROR_DUP);
+	close(pipex->pfd[1]);
+	close(pipex->outfd);
+	cmd2 = ft_verifpath(pipex, cmd);
+	if (execve(cmd2, cmd, envp) < 0)
+		ft_error(ERROR_EXECVE);
 }
 
 
-void	ft_pipex(t_pipex pipex, char **argv, char **envp)
+void	ft_pipex(t_pipex *pipex, char **argv, char **envp)
 {
 	char	**cmd;
+	int		status;
 
-	if (pipe(pipex.pfd) == -1) // envoyer tout ca dans une fonction pipex;
+	if (pipe(pipex->pfd) == -1)
 		ft_error(ERROR_PIPE);
-	pipex.pid1 = fork();
-	if (pipex.pid1 < 0)
-		return (-1);
-	else if (pipex.pid1 == 0)
+	pipex->pid1 = fork();
+	if (pipex->pid1 < 0)
+		ft_error(ERROR_PIPE);
+	else if (pipex->pid1 == 0)
 	{
 		cmd = ft_split(argv[2], ' ');
-		first_child_process(pipex.infd, cmd, pipex.pfd, envp[2]);
+		first_child_process(pipex, cmd, envp);
 		ft_freedbltab(cmd);
 	}
-	else
+	pipex->pid2 = fork();
+	if (pipex->pid2 < 0)
+		ft_error(ERROR_PIPE);
+	else if (pipex->pid2 == 0)
 	{
 		cmd = ft_split(argv[3], ' ');
-		second_child_process(cmd, pipex.outfd, pipex.pfd, envp [4]);
+		second_child_process(pipex, cmd, envp);
 		ft_freedbltab(cmd);
 	}
+	ft_closepipe(pipex);
+	waitpid(pipex->pid1, &status, 0);
+	waitpid(pipex->pid2, &status, 0);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -71,10 +108,12 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argc < 5)
 		ft_error(ERROR_ARG);
-	pipex.infd = open(argv[1], O_RDONLY);
-	pipex.outfd = open(argv[4], O_CREAT | O_RDWR | O_TRUNC, 0644);
-	if (pipex.infd < 0 || pipex.outfd < 0)
+	pipex.infd = open("file1", O_RDONLY);
+	if (pipex.infd < 0)
+		ft_error(ERROR_OPE);
+	pipex.outfd = open("file2", O_CREAT | O_RDWR | O_TRUNC, 0777);
+	if (pipex.outfd < 0)
 		ft_error(ERROR_OPEN);
 	pipex.path = ft_split(ft_findpath(envp), ':');
-	ft_pipex(pipex, argc, envp);
+	ft_pipex(&pipex, argv, envp);
 }

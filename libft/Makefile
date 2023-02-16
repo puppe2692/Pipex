@@ -55,8 +55,8 @@ OBJSPRINTF = ${PRINTF:.c=.o}
 OBJSGNL = ${GNL:.c=.o}
 
 AR = ar -rc
-CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g3
+CC = cc
+CFLAGS = -Wall -Wextra -Werror
 NAME = libft.a
 
 all: ${NAME}
