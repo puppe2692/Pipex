@@ -6,7 +6,7 @@
 /*   By: nwyseur <nwyseur@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 10:56:29 by nwyseur           #+#    #+#             */
-/*   Updated: 2023/02/16 18:33:48 by nwyseur          ###   ########.fr       */
+/*   Updated: 2023/02/20 18:27:02 by nwyseur          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,10 @@ void	first_child_process(t_pipex *pipex, char **cmd, char **envp)
 	close(pipex->infd);
 	cmd1 = ft_verifpath(pipex, cmd);
 	if (execve(cmd1, cmd, envp) < 0)
+	{
+		ft_freecmderr(cmd1, cmd, pipex);
 		ft_error(ERROR_EXECVE);
+	}
 }
 
 void	second_child_process(t_pipex *pipex, char **cmd, char **envp)
@@ -39,7 +42,10 @@ void	second_child_process(t_pipex *pipex, char **cmd, char **envp)
 	close(pipex->outfd);
 	cmd2 = ft_verifpath(pipex, cmd);
 	if (execve(cmd2, cmd, envp) < 0)
+	{
+		ft_freecmderr(cmd2, cmd, pipex);
 		ft_error(ERROR_EXECVE);
+	}
 }
 
 void	ft_childistrib(t_pipex *pipex, char *argv, char **envp,
@@ -77,14 +83,16 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_pipex	pipex;
 
-	if (argc < 5)
+	if (argc != 5)
 		ft_error(ERROR_ARG);
-	pipex.infd = open("file1", O_RDONLY);
+	pipex.infd = open(argv[1], O_RDONLY);
 	if (pipex.infd < 0)
 		ft_error(ERROR_OPE);
-	pipex.outfd = open("file2", O_CREAT | O_RDWR | O_TRUNC, 0777);
+	pipex.outfd = open(argv[argc - 1], O_CREAT | O_RDWR | O_TRUNC, 0777);
 	if (pipex.outfd < 0)
 		ft_error(ERROR_OPEN);
+	if (!ft_ispath(envp, "PATH"))
+		ft_error(ERROR_NOPATH);
 	pipex.path = ft_split(ft_findpath(envp), ':');
 	ft_pipex(&pipex, argv, envp);
 	ft_freedbltab(pipex.path);

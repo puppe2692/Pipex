@@ -1,33 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_management.c                                  :+:      :+:    :+:   */
+/*   error_management_bonus.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nwyseur <nwyseur@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/15 15:18:57 by nwyseur           #+#    #+#             */
-/*   Updated: 2023/02/20 10:26:48 by nwyseur          ###   ########.fr       */
+/*   Created: 2023/02/15 14:46:35 by nwyseur           #+#    #+#             */
+/*   Updated: 2023/02/20 17:29:23 by nwyseur          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/pipex.h"
+#include "../includes/pipex_bonus.h"
 
-void	ft_freedbltab(char **tab)
+void	ft_error(char *error)
 {
-	int	i;
-
-	i = 0;
-	while (tab[i])
-	{
-		free(tab[i]);
-		i++;
-	}
-	free(tab);
+	perror(error);
+	exit(-1);
 }
 
-void	ft_freecmderr(char *cmd1, char **cmd, t_pipex *pipex)
+void	ft_closepipe(int *pfd)
 {
-	free(cmd1);
-	ft_freedbltab(cmd);
-	ft_freedbltab(pipex->path);
+	close(pfd[0]);
+	close(pfd[1]);
 }

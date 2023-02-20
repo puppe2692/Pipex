@@ -62,20 +62,21 @@ NAME = libft.a
 all: ${NAME}
 
 ${NAME} : ${OBJS} ${OBJSPRINTF} ${OBJSBONUS} ${OBJSGNL}
-	${AR} ${NAME} ${OBJS} ${OBJSPRINTF} ${OBJSBONUS} ${OBJSGNL}
+	@${AR} ${NAME} ${OBJS} ${OBJSPRINTF} ${OBJSBONUS} ${OBJSGNL}
 
 .o: .c
-	${CC} -c ${CFLAGS} $< -o $@
+	@${CC} -c ${CFLAGS} $< -o $@
 
 bonus: ${OBJS} ${OBJSBONUS} ${OBJSPRINTF} ${OBJSGNL}
-	${AR} ${NAME} ${OBJS} ${OBJSBONUS} ${OBJSPRINTF} ${OBJSGNL}
+	@${AR} ${NAME} ${OBJS} ${OBJSBONUS} ${OBJSPRINTF} ${OBJSGNL}
 
 clean:
-	rm -f ${OBJS} ${OBJSBONUS} ${OBJSPRINTF} ${OBJSGNL}
+	@rm -f ${OBJS} ${OBJSBONUS} ${OBJSPRINTF} ${OBJSGNL}
 
 fclean: clean
-	rm -f ${NAME}
+	@rm -f ${NAME}
 
-re: fclean ${NAME}
+re: fclean 
+	@${NAME}
 
 .PHONY: clean fclean re all bonus

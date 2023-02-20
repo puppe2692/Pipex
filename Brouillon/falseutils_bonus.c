@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nwyseur <nwyseur@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 17:55:42 by nwyseur           #+#    #+#             */
-/*   Updated: 2023/02/20 11:50:12 by nwyseur          ###   ########.fr       */
+/*   Updated: 2023/02/20 16:01:55 by nwyseur          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/pipex.h"
+#include "../includes/pipex_bonus.h"
 
 char	*ft_findpath(char **envp)
 {
@@ -60,4 +60,37 @@ char	*ft_verifpath(t_pipex *pipex, char **cmd)
 		ft_error(ERROR_CMD);
 	}
 	return (cmd1);
+}
+
+void	ft_initpipeandpid(t_pipex *pipex, int argc)
+{
+	int	i;
+	int	j;	
+
+	i = 0;
+	pipex->pfd = (int **)malloc((argc - 4) * sizeof(int *));
+	if (!pipex->pfd)
+		ft_error(ERROR_PIPE);
+	while (i < argc - 4)
+	{
+		pipex->pfd[i] = (int *)malloc(2 * sizeof(int));
+		if (!pipex->pfd[i])
+			ft_freeintab(pipex->pfd, i);
+		if (pipe(pipex->pfd[i]) == -1)
+			ft_freeintab(pipex->pfd, i); //possibilite d'economiser des lignes
+		i++;
+	}
+	pipex->pid = (pid_t *)malloc((argc - 3) * sizeof(pid_t));
+	if (!pipex->pid)
+		ft_freeintab(pipex->pfd, i);
+}
+
+void	ft_childistrib(t_pipex *pipex, char *argv, char **envp,
+				void (*pf)(t_pipex *, char **, char **))
+{
+	char	**cmd;
+
+	cmd = ft_split(argv, ' ');
+	(*pf)(pipex, cmd, envp);
+	ft_freedbltab(cmd);
 }

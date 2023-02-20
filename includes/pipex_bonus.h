@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   pipex_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nwyseur <nwyseur@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/15 10:57:35 by nwyseur           #+#    #+#             */
-/*   Updated: 2023/02/20 11:45:28 by nwyseur          ###   ########.fr       */
+/*   Created: 2023/02/20 11:53:50 by nwyseur           #+#    #+#             */
+/*   Updated: 2023/02/20 17:55:46 by nwyseur          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#ifndef PIPEX_BONUS_H
+# define PIPEX_BONUS_H
 
 # include "../libft/libft.h"
 # include <string.h>
@@ -32,6 +32,7 @@
 # define ERROR_OPEN "Open outfile Error"
 # define ERROR_ARG "Arg Error"
 # define ERROR_PIPE "Pipe Error"
+# define ERROR_PID "Pid Error"
 # define ERROR_DUP "Dup Error"
 # define ERROR_CMD "Cmd Error"
 # define ERROR_EXECVE "Execve Error"
@@ -41,17 +42,18 @@
 
 typedef struct s_pipex
 {
-	int		pfd[2];
-	pid_t	pid1;
-	pid_t	pid2;
+	//pid_t	*pid;
 	int		infd;
 	int		outfd;
+	int		i;
+	int		prevfd;
 	char	**path;
 
 }	t_pipex;
 
 /* fonctions */
-void	ft_pipex(t_pipex *pipex, char **argv, char **envp);
+void	ft_pipex(t_pipex *pipex, int ac, char **argv, char **envp);
+//void	ft_initpid(t_pipex *pipex, int argc);
 void	ft_childistrib(t_pipex *pipex, char *argv, char **envp,
 			void (*pf)(t_pipex *, char **, char **));
 void	first_child_process(t_pipex *pipex, char **cmd, char **envp);
@@ -63,7 +65,7 @@ int		ft_ispath(char **envp, char *tofind);
 /* fonctions free & error*/
 void	ft_error(char *error);
 void	ft_freedbltab(char **tab);
-void	ft_closepipe(t_pipex *pipex);
+void	ft_closepipe(int *pfd);
 void	ft_freecmderr(char *cmd1, char **cmd, t_pipex *pipex);
 
 #endif

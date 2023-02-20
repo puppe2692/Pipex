@@ -6,7 +6,7 @@
 /*   By: nwyseur <nwyseur@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 18:04:01 by nwyseur           #+#    #+#             */
-/*   Updated: 2023/02/16 18:14:06 by nwyseur          ###   ########.fr       */
+/*   Updated: 2023/02/20 16:52:48 by nwyseur          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,3 +41,10 @@ void	ft_pipex(t_pipex *pipex, char **argv, char **envp)
 	waitpid(pipex->pid1, &status, 0);
 	waitpid(pipex->pid2, &status, 0);
 }
+
+
+		pipex->pid[i] = fork();
+		if (pipex->pid[i] < 0)
+			ft_error(ERROR_PIPE);
+
+				else if (pipex->pid[i] == 0)

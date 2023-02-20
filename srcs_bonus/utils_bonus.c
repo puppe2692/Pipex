@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nwyseur <nwyseur@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 17:55:42 by nwyseur           #+#    #+#             */
-/*   Updated: 2023/02/20 11:50:12 by nwyseur          ###   ########.fr       */
+/*   Updated: 2023/02/20 17:55:49 by nwyseur          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/pipex.h"
+#include "../includes/pipex_bonus.h"
 
 char	*ft_findpath(char **envp)
 {
@@ -61,3 +61,10 @@ char	*ft_verifpath(t_pipex *pipex, char **cmd)
 	}
 	return (cmd1);
 }
+
+//void	ft_initpid(t_pipex *pipex, int argc)
+//{
+//	pipex->pid = (pid_t *)malloc((argc - 3) * sizeof(pid_t));
+//	if (!pipex->pid)
+//		ft_error(ERROR_PID);
+//}

@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_management.c                                  :+:      :+:    :+:   */
+/*   free_management_bonus.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nwyseur <nwyseur@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 15:18:57 by nwyseur           #+#    #+#             */
-/*   Updated: 2023/02/20 10:26:48 by nwyseur          ###   ########.fr       */
+/*   Updated: 2023/02/20 16:22:10 by nwyseur          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/pipex.h"
+#include "../includes/pipex_bonus.h"
 
 void	ft_freedbltab(char **tab)
 {

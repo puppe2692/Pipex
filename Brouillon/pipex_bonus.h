@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   pipex_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nwyseur <nwyseur@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/15 10:57:35 by nwyseur           #+#    #+#             */
-/*   Updated: 2023/02/20 11:45:28 by nwyseur          ###   ########.fr       */
+/*   Created: 2023/02/20 11:53:50 by nwyseur           #+#    #+#             */
+/*   Updated: 2023/02/20 16:00:58 by nwyseur          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#ifndef PIPEX_BONUS_H
+# define PIPEX_BONUS_H
 
 # include "../libft/libft.h"
 # include <string.h>
@@ -41,21 +41,22 @@
 
 typedef struct s_pipex
 {
-	int		pfd[2];
-	pid_t	pid1;
-	pid_t	pid2;
+	int		**pfd;
+	pid_t	*pid;
 	int		infd;
 	int		outfd;
+	int		i;
 	char	**path;
 
 }	t_pipex;
 
 /* fonctions */
-void	ft_pipex(t_pipex *pipex, char **argv, char **envp);
+void	ft_pipex(t_pipex *pipex, int argc, char **argv, char **envp);
 void	ft_childistrib(t_pipex *pipex, char *argv, char **envp,
 			void (*pf)(t_pipex *, char **, char **));
 void	first_child_process(t_pipex *pipex, char **cmd, char **envp);
-void	second_child_process(t_pipex *pipex, char **cmd, char **envp);
+void	mid_child_process(t_pipex *pipex, char **cmd, char **envp);
+void	last_child_process(t_pipex *pipex, char **cmd, char **envp);
 char	*ft_verifpath(t_pipex *pipex, char **cmd);
 char	*ft_findpath(char **envp);
 int		ft_ispath(char **envp, char *tofind);
