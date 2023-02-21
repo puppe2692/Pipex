@@ -6,7 +6,7 @@
 /*   By: nwyseur <nwyseur@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 11:27:15 by nwyseur           #+#    #+#             */
-/*   Updated: 2023/02/21 16:41:51 by nwyseur          ###   ########.fr       */
+/*   Updated: 2023/02/21 16:54:38 by nwyseur          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ void	ft_initheredoc(t_heredoc *heredoc, int ac, char **argv)
 	int	i;
 
 	heredoc->hdav = (char **)malloc((ac - 1) * sizeof(char *));
+	if (!heredoc->hdav)
+		ft_error(ERROR_HEREDOC);
 	heredoc->hdav[0] = argv[0];
 	heredoc->hdav[1] = "here_doctmp.txt";
 	i = 2;

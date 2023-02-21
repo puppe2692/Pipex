@@ -6,7 +6,7 @@
 /*   By: nwyseur <nwyseur@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 10:56:29 by nwyseur           #+#    #+#             */
-/*   Updated: 2023/02/21 16:27:50 by nwyseur          ###   ########.fr       */
+/*   Updated: 2023/02/21 16:58:50 by nwyseur          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ void	ft_pipex(t_pipex *pipex, int ac, char **argv, char **envp)
 {
 	int		i;
 
-	//ft_initpid(pipex, ac);
 	i = 0;
 	pipex->prevfd = pipex->infd;
 	while (i < ac - 3)
