@@ -1,0 +1,13 @@
+10
+total 40
+drwxr-xr-x 2 nwyseur 2022_paris 4096 Feb 20 16:55 Brouillon
+-rwxrwxrwx 1 nwyseur 2022_paris   47 Feb 20 10:35 file1
+-rw-r--r-- 1 nwyseur 2022_paris    2 Feb 20 18:27 file2
+-rw-r--r-- 1 nwyseur 2022_paris    6 Feb 21 09:53 file3
+-rw-r--r-- 1 nwyseur 2022_paris    3 Feb 21 09:54 file4
+drwxr-xr-x 2 nwyseur 2022_paris 4096 Feb 20 11:53 includes
+drwxr-xr-x 2 nwyseur 2022_paris 4096 Feb 20 18:33 libft
+-rw-r--r-- 1 nwyseur 2022_paris 2485 Feb 20 18:03 Makefile
+drwxr-xr-x 2 nwyseur 2022_paris 4096 Feb 20 18:33 srcs
+drwxr-xr-x 2 nwyseur 2022_paris 4096 Feb 21 09:59 srcs_bonus
+Bonjour je suis Nicolas OUI mais martine vous etes bien laide$$

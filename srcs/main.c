@@ -6,7 +6,7 @@
 /*   By: nwyseur <nwyseur@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 10:56:29 by nwyseur           #+#    #+#             */
-/*   Updated: 2023/02/20 18:27:02 by nwyseur          ###   ########.fr       */
+/*   Updated: 2023/02/21 16:42:32 by nwyseur          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,5 +95,6 @@ int	main(int argc, char **argv, char **envp)
 		ft_error(ERROR_NOPATH);
 	pipex.path = ft_split(ft_findpath(envp), ':');
 	ft_pipex(&pipex, argv, envp);
+	close(pipex.outfd);
 	ft_freedbltab(pipex.path);
 }

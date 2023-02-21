@@ -6,7 +6,7 @@
 #    By: nwyseur <nwyseur@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/28 21:18:35 by nwyseur           #+#    #+#              #
-#    Updated: 2023/02/20 18:03:43 by nwyseur          ###   ########.fr        #
+#    Updated: 2023/02/21 11:50:37 by nwyseur          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ BONUS_FILES	:= main_bonus.c \
 				error_management_bonus.c \
 				free_management_bonus.c \
 				utils_bonus.c \
+				here_doc.c \
 
 HEADER_FILE_BONUS := pipex_bonus.h
 

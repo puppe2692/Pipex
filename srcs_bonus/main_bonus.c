@@ -6,7 +6,7 @@
 /*   By: nwyseur <nwyseur@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 10:56:29 by nwyseur           #+#    #+#             */
-/*   Updated: 2023/02/20 18:26:59 by nwyseur          ###   ########.fr       */
+/*   Updated: 2023/02/21 16:27:50 by nwyseur          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,19 +97,25 @@ void	ft_pipex(t_pipex *pipex, int ac, char **argv, char **envp)
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_pipex	pipex;
+	t_pipex		pipex;
 
-	if (argc < 5)
+	pipex.ishs = ft_isheredoc(argv);
+	if ((pipex.ishs == 0 && argc < 5) || (pipex.ishs == 1 && argc < 6))
 		ft_error(ERROR_ARG);
-	pipex.infd = open(argv[1], O_RDONLY);
-	if (pipex.infd < 0)
-		ft_error(ERROR_OPE);
-	pipex.outfd = open(argv[argc - 1], O_CREAT | O_RDWR | O_TRUNC, 0777);
-	if (pipex.outfd < 0)
-		ft_error(ERROR_OPEN);
 	if (!ft_ispath(envp, "PATH"))
 		ft_error(ERROR_NOPATH);
 	pipex.path = ft_split(ft_findpath(envp), ':');
-	ft_pipex(&pipex, argc, argv, envp);
+	if (pipex.ishs == 1)
+		ft_heredoc(&pipex, argc, argv, envp);
+	else
+	{
+		pipex.infd = open(argv[1], O_RDONLY);
+		if (pipex.infd < 0)
+			ft_error(ERROR_OPE);
+		pipex.outfd = open(argv[argc - 1], O_CREAT | O_RDWR | O_TRUNC, 0777);
+		if (pipex.outfd < 0)
+			ft_error(ERROR_OPEN);
+		ft_pipex(&pipex, argc, argv, envp);
+	}
 	ft_freedbltab(pipex.path);
 }
