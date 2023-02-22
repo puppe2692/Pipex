@@ -6,7 +6,7 @@
 /*   By: nwyseur <nwyseur@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 11:53:50 by nwyseur           #+#    #+#             */
-/*   Updated: 2023/02/21 16:58:36 by nwyseur          ###   ########.fr       */
+/*   Updated: 2023/02/22 12:43:38 by nwyseur          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,14 @@ typedef struct s_heredoc
 
 /* fonctions */
 void	ft_pipex(t_pipex *pipex, int ac, char **argv, char **envp);
-//void	ft_initpid(t_pipex *pipex, int argc);
 void	ft_childistrib(t_pipex *pipex, char *argv, char **envp,
 			void (*pf)(t_pipex *, char **, char **));
 void	first_child_process(t_pipex *pipex, char **cmd, char **envp);
 void	second_child_process(t_pipex *pipex, char **cmd, char **envp);
-char	*ft_verifpath(t_pipex *pipex, char **cmd);
+char	*ft_verifpath(t_pipex *pipex, char **cmd, char **envp);
 char	*ft_findpath(char **envp);
 int		ft_ispath(char **envp, char *tofind);
+int		ft_nopath(char **cmd, char **envp);
 
 /* fonctions here_doc*/
 int		ft_isheredoc(char **argv);
@@ -77,6 +77,8 @@ void	ft_heredocpipex(t_pipex *pipex, t_heredoc *heredoc,
 
 /* fonctions free & error*/
 void	ft_error(char *error);
+void	ft_errorparam(char *error);
+void	ft_errorfile(char *error, char **argv, int argc);
 void	ft_freedbltab(char **tab);
 void	ft_closepipe(int *pfd);
 void	ft_freecmderr(char *cmd1, char **cmd, t_pipex *pipex);

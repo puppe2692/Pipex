@@ -6,17 +6,17 @@
 #    By: nwyseur <nwyseur@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/28 21:18:35 by nwyseur           #+#    #+#              #
-#    Updated: 2023/02/21 11:50:37 by nwyseur          ###   ########.fr        #
+#    Updated: 2023/02/22 11:33:04 by nwyseur          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		:= pipex
 NAME_BONUS	:= pipex_bonus
 
-SRCS_FILES	:= main.c \
+SRCS_FILES	:= main_copy.c \
 				error_management.c \
 				free_management.c \
-				utils.c \
+				utils_copy.c \
 
 BONUS_FILES	:= main_bonus.c \
 				error_management_bonus.c \

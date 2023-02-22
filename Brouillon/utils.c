@@ -6,7 +6,7 @@
 /*   By: nwyseur <nwyseur@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 17:55:42 by nwyseur           #+#    #+#             */
-/*   Updated: 2023/02/20 11:50:12 by nwyseur          ###   ########.fr       */
+/*   Updated: 2023/02/22 11:32:05 by nwyseur          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*ft_findpath(char **envp)
 {
-	while (ft_strncmp(*envp, "PATH", 4) != 0)
+	while (ft_strncmp(*envp, "PATH=", 5) != 0)
 		envp++;
 	return (*envp + 5);
 }

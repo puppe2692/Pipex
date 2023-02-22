@@ -6,7 +6,7 @@
 /*   By: nwyseur <nwyseur@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 10:56:29 by nwyseur           #+#    #+#             */
-/*   Updated: 2023/02/21 16:42:32 by nwyseur          ###   ########.fr       */
+/*   Updated: 2023/02/22 11:32:14 by nwyseur          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	main(int argc, char **argv, char **envp)
 		ft_error(ERROR_ARG);
 	pipex.infd = open(argv[1], O_RDONLY);
 	if (pipex.infd < 0)
-		ft_error(ERROR_OPE);
+		ft_errorfile(ERROR_OPE, argv, argc);
 	pipex.outfd = open(argv[argc - 1], O_CREAT | O_RDWR | O_TRUNC, 0777);
 	if (pipex.outfd < 0)
 		ft_error(ERROR_OPEN);
