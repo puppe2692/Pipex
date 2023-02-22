@@ -6,7 +6,7 @@
 /*   By: nwyseur <nwyseur@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 11:53:50 by nwyseur           #+#    #+#             */
-/*   Updated: 2023/02/22 12:43:38 by nwyseur          ###   ########.fr       */
+/*   Updated: 2023/02/22 16:29:48 by nwyseur          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,13 +74,14 @@ void	ft_initheredoc(t_heredoc *heredoc, int ac, char **argv);
 void	ft_heredoc(t_pipex *pipex, int ac, char **argv, char **envp);
 void	ft_heredocpipex(t_pipex *pipex, t_heredoc *heredoc,
 			char **envp, int ac);
+int		ft_strcmp(const char *s1, const char *s2);
 
 /* fonctions free & error*/
 void	ft_error(char *error);
 void	ft_errorparam(char *error);
 void	ft_errorfile(char *error, char **argv, int argc);
 void	ft_freedbltab(char **tab);
-void	ft_closepipe(int *pfd);
+void	ft_closepipe(int a, int b);
 void	ft_freecmderr(char *cmd1, char **cmd, t_pipex *pipex);
 
 #endif

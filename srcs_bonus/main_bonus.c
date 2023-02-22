@@ -6,7 +6,7 @@
 /*   By: nwyseur <nwyseur@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 10:56:29 by nwyseur           #+#    #+#             */
-/*   Updated: 2023/02/22 13:03:39 by nwyseur          ###   ########.fr       */
+/*   Updated: 2023/02/22 16:30:51 by nwyseur          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,12 @@ void	first_child_process(t_pipex *pipex, char **cmd, char **envp)
 		ft_error(ERROR_PIPE);
 	else if (pid == 0)
 	{
+		if (pipex->prevfd < 0)
+			ft_error(ERROR_OPE);
 		if (dup2(pipex->prevfd, STDIN_FILENO) < 0
 			|| dup2(pfd[1], STDOUT_FILENO) < 0)
 			ft_error(ERROR_DUP);
-		close(pfd[0]);
-		close(pipex->prevfd);
+		ft_closepipe(pfd[0], pipex->prevfd);
 		cmd1 = ft_verifpath(pipex, cmd, envp);
 		execve(cmd1, cmd, envp);
 		ft_freecmderr(cmd1, cmd, pipex);
@@ -113,8 +114,8 @@ int	main(int argc, char **argv, char **envp)
 	else
 	{
 		pipex.infd = open(argv[1], O_RDONLY);
-		if (pipex.infd < 0)
-			ft_errorfile(ERROR_OPE, argv, argc);
+		//if (pipex.infd < 0)
+			//ft_errorfile(ERROR_OPE, argv, argc);
 		ft_pipex(&pipex, argc, argv, envp);
 		close(pipex.outfd);
 	}

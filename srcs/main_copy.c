@@ -6,7 +6,7 @@
 /*   By: nwyseur <nwyseur@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 10:56:29 by nwyseur           #+#    #+#             */
-/*   Updated: 2023/02/22 12:53:55 by nwyseur          ###   ########.fr       */
+/*   Updated: 2023/02/22 16:22:33 by nwyseur          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,14 @@ void	first_child_process(t_pipex *pipex, char **cmd, char **envp)
 {
 	char	*cmd1;
 
+	if (pipex->infd < 0)
+		ft_error(ERROR_OPE);
 	if (dup2(pipex->infd, STDIN_FILENO) < 0)
 		ft_error(ERROR_DUP);
 	if (dup2(pipex->pfd[1], STDOUT_FILENO) < 0)
 		ft_error(ERROR_DUP);
 	close(pipex->pfd[0]);
+	close(pipex->pfd[1]);
 	close(pipex->infd);
 	cmd1 = ft_verifpath(pipex, cmd, envp);
 	if (execve(cmd1, cmd, envp) < 0)
@@ -38,6 +41,7 @@ void	second_child_process(t_pipex *pipex, char **cmd, char **envp)
 		ft_error(ERROR_DUP);
 	if (dup2(pipex->outfd, STDOUT_FILENO) < 0)
 		ft_error(ERROR_DUP);
+	close(pipex->pfd[0]);
 	close(pipex->pfd[1]);
 	close(pipex->outfd);
 	cmd2 = ft_verifpath(pipex, cmd, envp);
@@ -69,12 +73,13 @@ void	ft_pipex(t_pipex *pipex, char **argv, char **envp, int argc)
 		ft_error(ERROR_PIPE);
 	else if (pipex->pid1 == 0)
 		ft_childistrib(pipex, argv[2], envp, &first_child_process);
+	close(pipex->infd);
 	pipex->pid2 = fork();
 	if (pipex->pid2 < 0)
 		ft_error(ERROR_PIPE);
 	else if (pipex->pid2 == 0)
 	{
-		pipex->outfd = open(argv[argc - 1], O_CREAT | O_RDWR | O_TRUNC, 0777);
+		pipex->outfd = open(argv[argc - 1], O_CREAT | O_RDWR | O_TRUNC, 0644);
 		if (pipex->outfd < 0)
 			ft_error(ERROR_OPEN);
 		ft_childistrib(pipex, argv[3], envp, &second_child_process);
@@ -91,8 +96,8 @@ int	main(int argc, char **argv, char **envp)
 	if (argc != 5)
 		ft_error(ERROR_ARG);
 	pipex.infd = open(argv[1], O_RDONLY);
-	if (pipex.infd < 0)
-		ft_errorfile(ERROR_OPE, argv, argc);
+	//if (pipex.infd < 0)
+	//	ft_errorfile(ERROR_OPE, argv, argc);
 	//pipex.outfd = open(argv[argc - 1], O_CREAT | O_RDWR | O_TRUNC, 0777);
 	//if (pipex.outfd < 0)
 	//	ft_error(ERROR_OPEN);

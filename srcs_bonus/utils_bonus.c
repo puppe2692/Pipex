@@ -6,7 +6,7 @@
 /*   By: nwyseur <nwyseur@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 17:55:42 by nwyseur           #+#    #+#             */
-/*   Updated: 2023/02/22 12:39:26 by nwyseur          ###   ########.fr       */
+/*   Updated: 2023/02/22 15:26:12 by nwyseur          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,19 @@ int	ft_nopath(char **cmd, char **envp)
 
 	if (!ft_ispath(envp, "PATH"))
 	{
-		if (cmd[0][0] == '/')
+		if (ft_strchr(cmd[0], '/') != 0)
 		{
 			cmd1 = cmd[0];
 			if (access(cmd1, F_OK) == 0)
 				return (1);
 		}
 		ft_error(ERROR_NOPATH);
+	}
+	if (ft_strchr(cmd[0], '/') != 0)
+	{
+		cmd1 = cmd[0];
+		if (access(cmd1, F_OK) == 0)
+			return (1);
 	}
 	return (0);
 }
@@ -63,14 +69,15 @@ char	*ft_verifpath(t_pipex *pipex, char **cmd, char **envp)
 		return (cmd[0]);
 	pipex->path = ft_split(ft_findpath(envp), ':');
 	i = 0;
-	while (access(cmd1, F_OK) != 0 && pipex->path[i] != NULL)
+	tmp = ft_strjoin(pipex->path[0], "/");
+	cmd1 = ft_strjoin(tmp, cmd[0]);
+	free(tmp);
+	while (access(cmd1, F_OK) != 0 && pipex->path[++i] != NULL)
 	{
-		if (i != 0)
-			free(cmd1);
+		free(cmd1);
 		tmp = ft_strjoin(pipex->path[i], "/");
 		cmd1 = ft_strjoin(tmp, cmd[0]);
 		free(tmp);
-		i++;
 	}
 	if (pipex->path[i] == NULL)
 	{

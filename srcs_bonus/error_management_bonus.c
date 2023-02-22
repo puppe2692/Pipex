@@ -6,7 +6,7 @@
 /*   By: nwyseur <nwyseur@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 14:46:35 by nwyseur           #+#    #+#             */
-/*   Updated: 2023/02/22 12:41:43 by nwyseur          ###   ########.fr       */
+/*   Updated: 2023/02/22 16:29:38 by nwyseur          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ void	ft_errorparam(char *error)
 	exit(1);
 }
 
-void	ft_closepipe(int *pfd)
+void	ft_closepipe(int a, int b)
 {
-	close(pfd[0]);
-	close(pfd[1]);
+	close(a);
+	close(b);
 }

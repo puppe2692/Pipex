@@ -6,7 +6,7 @@
 /*   By: nwyseur <nwyseur@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/21 11:27:15 by nwyseur           #+#    #+#             */
-/*   Updated: 2023/02/21 16:54:38 by nwyseur          ###   ########.fr       */
+/*   Updated: 2023/02/22 16:02:38 by nwyseur          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,20 @@ void	ft_heredocpipex(t_pipex *pipex, t_heredoc *heredoc, char **envp, int ac)
 	pipex->infd = open("here_doctmp.txt", O_RDONLY);
 	if (pipex->infd < 0)
 		ft_error(ERROR_OPE);
-	pipex->outfd = open(heredoc->hdav[ac - 2], O_CREAT
-			| O_RDWR | O_TRUNC, 0777);
-	if (pipex->outfd < 0)
-		ft_error(ERROR_OPEN);
 	ft_pipex(pipex, ac - 1, heredoc->hdav, envp);
 	free(heredoc->hdav);
 	close(pipex->outfd);
 	unlink("here_doctmp.txt");
+}
+
+int	ft_strcmp(const char *s1, const char *s2)
+{
+	int	i;
+
+	i = 0;
+	while (s1[i] != '\0' && s2[i] != '\0' && s1[i] == s2[i])
+		i++;
+	return (s1[i] - s2[i] - '\n');
 }
 
 void	ft_heredoc(t_pipex *pipex, int ac, char **argv, char **envp)
@@ -66,7 +72,7 @@ void	ft_heredoc(t_pipex *pipex, int ac, char **argv, char **envp)
 		buf = get_next_line(0);
 		if (buf == NULL)
 			ft_error(ERROR_HEREDOC);
-		if (ft_strncmp(buf, argv[2], ft_strlen(argv[2])) == 0)
+		if (ft_strcmp(buf, argv[2]) == 0)
 			break ;
 		write(heredoc.infd, buf, ft_strlen(buf));
 		free(buf);
