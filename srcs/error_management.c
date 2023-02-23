@@ -6,7 +6,7 @@
 /*   By: nwyseur <nwyseur@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 14:46:35 by nwyseur           #+#    #+#             */
-/*   Updated: 2023/02/22 10:56:15 by nwyseur          ###   ########.fr       */
+/*   Updated: 2023/02/23 10:28:04 by nwyseur          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,11 @@ void	ft_error(char *error)
 	exit(errno);
 }
 
-void	ft_errorfile(char *error, char **argv, int argc)
+void	ft_errorfile(char *error, t_pipex *pipex)
 {
-	int	i;
-
+	ft_closepipeint(pipex->pfd[0], pipex->pfd[1]);
 	perror(error);
-	i = open(argv[argc - 1], O_CREAT | O_RDWR | O_TRUNC, 0777);
-	if (i < 0)
-		ft_error(ERROR_OPEN);
-	else
-	{
-		close(i);
-		exit(errno);
-	}
+	exit(errno);
 }
 
 void	ft_errorparam(char *error)
@@ -43,4 +35,10 @@ void	ft_closepipe(t_pipex *pipex)
 {
 	close(pipex->pfd[0]);
 	close(pipex->pfd[1]);
+}
+
+void	ft_closepipeint(int a, int b)
+{
+	close(a);
+	close(b);
 }

@@ -6,7 +6,7 @@
 /*   By: nwyseur <nwyseur@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 10:56:29 by nwyseur           #+#    #+#             */
-/*   Updated: 2023/02/22 16:22:33 by nwyseur          ###   ########.fr       */
+/*   Updated: 2023/02/23 10:27:54 by nwyseur          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,11 @@ void	first_child_process(t_pipex *pipex, char **cmd, char **envp)
 	char	*cmd1;
 
 	if (pipex->infd < 0)
+	{
+		ft_freedbltab(cmd);
+		ft_closepipeint(pipex->pfd[0], pipex->pfd[1]);
 		ft_error(ERROR_OPE);
+	}
 	if (dup2(pipex->infd, STDIN_FILENO) < 0)
 		ft_error(ERROR_DUP);
 	if (dup2(pipex->pfd[1], STDOUT_FILENO) < 0)
@@ -81,7 +85,7 @@ void	ft_pipex(t_pipex *pipex, char **argv, char **envp, int argc)
 	{
 		pipex->outfd = open(argv[argc - 1], O_CREAT | O_RDWR | O_TRUNC, 0644);
 		if (pipex->outfd < 0)
-			ft_error(ERROR_OPEN);
+			ft_errorfile(ERROR_OPEN, pipex);
 		ft_childistrib(pipex, argv[3], envp, &second_child_process);
 	}
 	ft_closepipe(pipex);

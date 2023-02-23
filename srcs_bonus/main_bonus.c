@@ -6,7 +6,7 @@
 /*   By: nwyseur <nwyseur@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 10:56:29 by nwyseur           #+#    #+#             */
-/*   Updated: 2023/02/22 16:30:51 by nwyseur          ###   ########.fr       */
+/*   Updated: 2023/02/23 11:19:08 by nwyseur          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ void	first_child_process(t_pipex *pipex, char **cmd, char **envp)
 	else if (pid == 0)
 	{
 		if (pipex->prevfd < 0)
-			ft_error(ERROR_OPE);
+			ft_errorfile(ERROR_OPE, cmd, pfd);
 		if (dup2(pipex->prevfd, STDIN_FILENO) < 0
 			|| dup2(pfd[1], STDOUT_FILENO) < 0)
 			ft_error(ERROR_DUP);
-		ft_closepipe(pfd[0], pipex->prevfd);
+		ft_closepipethree(pfd[0], pfd[1], pipex->prevfd);
 		cmd1 = ft_verifpath(pipex, cmd, envp);
 		execve(cmd1, cmd, envp);
 		ft_freecmderr(cmd1, cmd, pipex);
@@ -89,9 +89,12 @@ void	ft_pipex(t_pipex *pipex, int ac, char **argv, char **envp)
 			ft_childistrib(pipex, argv[i + 2], envp, &first_child_process);
 		else if (i == ac - 4)
 		{
-			pipex->outfd = open(argv[ac - 1], O_CREAT | O_RDWR | O_TRUNC, 0777);
+			pipex->outfd = open(argv[ac - 1], O_CREAT | O_RDWR | O_TRUNC, 0644);
 			if (pipex->outfd < 0)
+			{
+				close(pipex->prevfd);
 				ft_error(ERROR_OPEN);
+			}
 			ft_childistrib(pipex, argv[i + 2], envp, &last_child_process);
 		}
 		i++;

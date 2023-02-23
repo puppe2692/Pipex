@@ -6,7 +6,7 @@
 /*   By: nwyseur <nwyseur@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 11:53:50 by nwyseur           #+#    #+#             */
-/*   Updated: 2023/02/22 16:29:48 by nwyseur          ###   ########.fr       */
+/*   Updated: 2023/02/23 11:20:01 by nwyseur          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,10 @@ int		ft_strcmp(const char *s1, const char *s2);
 /* fonctions free & error*/
 void	ft_error(char *error);
 void	ft_errorparam(char *error);
-void	ft_errorfile(char *error, char **argv, int argc);
+void	ft_errorfile(char *error, char **cmd, int *pfd);
 void	ft_freedbltab(char **tab);
 void	ft_closepipe(int a, int b);
+void	ft_closepipethree(int a, int b, int c);
 void	ft_freecmderr(char *cmd1, char **cmd, t_pipex *pipex);
 
 #endif

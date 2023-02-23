@@ -6,7 +6,7 @@
 /*   By: nwyseur <nwyseur@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 14:46:35 by nwyseur           #+#    #+#             */
-/*   Updated: 2023/02/22 16:29:38 by nwyseur          ###   ########.fr       */
+/*   Updated: 2023/02/23 11:19:50 by nwyseur          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,12 @@ void	ft_error(char *error)
 	exit(errno);
 }
 
-void	ft_errorfile(char *error, char **argv, int argc)
+void	ft_errorfile(char *error, char **cmd, int *pfd)
 {
-	int	i;
-
+	ft_closepipe(pfd[0], pfd[1]);
+	ft_freedbltab(cmd);
 	perror(error);
-	i = open(argv[argc - 1], O_CREAT | O_RDWR | O_TRUNC, 0777);
-	if (i < 0)
-		ft_error(ERROR_OPEN);
-	else
-	{
-		close(i);
-		exit(errno);
-	}
+	exit(errno);
 }
 
 void	ft_errorparam(char *error)
@@ -43,4 +36,11 @@ void	ft_closepipe(int a, int b)
 {
 	close(a);
 	close(b);
+}
+
+void	ft_closepipethree(int a, int b, int c)
+{
+	close(a);
+	close(b);
+	close(c);
 }

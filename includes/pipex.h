@@ -6,7 +6,7 @@
 /*   By: nwyseur <nwyseur@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 10:57:35 by nwyseur           #+#    #+#             */
-/*   Updated: 2023/02/22 12:54:13 by nwyseur          ###   ########.fr       */
+/*   Updated: 2023/02/23 10:28:16 by nwyseur          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,10 @@ int		ft_nopath(char **cmd, char **envp);
 /* fonctions free & error*/
 void	ft_error(char *error);
 void	ft_errorparam(char *error);
-void	ft_errorfile(char *error, char **argv, int argc);
+void	ft_errorfile(char *error, t_pipex *pipex);
 void	ft_freedbltab(char **tab);
 void	ft_closepipe(t_pipex *pipex);
+void	ft_closepipeint(int a, int b);
 void	ft_freecmderr(char *cmd1, char **cmd, t_pipex *pipex);
 
 #endif
