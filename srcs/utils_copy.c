@@ -6,7 +6,7 @@
 /*   By: nwyseur <nwyseur@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 17:55:42 by nwyseur           #+#    #+#             */
-/*   Updated: 2023/02/22 15:24:29 by nwyseur          ###   ########.fr       */
+/*   Updated: 2023/02/24 15:04:29 by nwyseur          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ int	ft_nopath(char **cmd, char **envp)
 		cmd1 = cmd[0];
 		if (access(cmd1, F_OK) == 0)
 			return (1);
+		ft_error(ERROR_CMD);
 	}
 	return (0);
 }
