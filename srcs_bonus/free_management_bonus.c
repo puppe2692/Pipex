@@ -6,7 +6,7 @@
 /*   By: nwyseur <nwyseur@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 15:18:57 by nwyseur           #+#    #+#             */
-/*   Updated: 2023/02/20 16:22:10 by nwyseur          ###   ########.fr       */
+/*   Updated: 2023/02/27 15:04:14 by nwyseur          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,8 @@ void	ft_freecmderr(char *cmd1, char **cmd, t_pipex *pipex)
 {
 	free(cmd1);
 	ft_freedbltab(cmd);
-	ft_freedbltab(pipex->path);
+	if (pipex->path != NULL)
+		ft_freedbltab(pipex->path);
+	if (pipex->ishs == 1 && pipex->hd != NULL)
+		free(pipex->hd->hdav);
 }

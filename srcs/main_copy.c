@@ -6,7 +6,7 @@
 /*   By: nwyseur <nwyseur@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 10:56:29 by nwyseur           #+#    #+#             */
-/*   Updated: 2023/02/23 11:48:44 by nwyseur          ###   ########.fr       */
+/*   Updated: 2023/02/27 12:49:32 by nwyseur          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,9 @@ void	first_child_process(t_pipex *pipex, char **cmd, char **envp)
 	close(pipex->pfd[1]);
 	close(pipex->infd);
 	cmd1 = ft_verifpath(pipex, cmd, envp);
-	if (execve(cmd1, cmd, envp) < 0)
-	{
-		ft_freecmderr(cmd1, cmd, pipex);
-		ft_error(ERROR_EXECVE);
-	}
+	execve(cmd1, cmd, envp);
+	ft_freecmderr(NULL, cmd, pipex);
+	ft_error(ERROR_EXECVE);
 }
 
 void	second_child_process(t_pipex *pipex, char **cmd, char **envp)
@@ -49,11 +47,9 @@ void	second_child_process(t_pipex *pipex, char **cmd, char **envp)
 	close(pipex->pfd[1]);
 	close(pipex->outfd);
 	cmd2 = ft_verifpath(pipex, cmd, envp);
-	if (execve(cmd2, cmd, envp) < 0)
-	{
-		ft_freecmderr(cmd2, cmd, pipex);
-		ft_error(ERROR_EXECVE);
-	}
+	execve(cmd2, cmd, envp);
+	ft_freecmderr(NULL, cmd, pipex);
+	ft_error(ERROR_EXECVE);
 }
 
 void	ft_childistrib(t_pipex *pipex, char *argv, char **envp,

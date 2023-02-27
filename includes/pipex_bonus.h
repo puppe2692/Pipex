@@ -6,7 +6,7 @@
 /*   By: nwyseur <nwyseur@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 11:53:50 by nwyseur           #+#    #+#             */
-/*   Updated: 2023/02/23 11:20:01 by nwyseur          ###   ########.fr       */
+/*   Updated: 2023/02/27 15:39:54 by nwyseur          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,21 +41,24 @@
 
 /* List Structure */
 
-typedef struct s_pipex
-{
-	int		infd;
-	int		outfd;
-	int		i;
-	int		prevfd;
-	int		ishs;
-	char	**path;
-}	t_pipex;
-
 typedef struct s_heredoc
 {
 	char	**hdav;
 	int		infd;
 }	t_heredoc;
+
+typedef struct s_pipex
+{
+	int			infd;
+	int			outfd;
+	int			i;
+	int			prevfd;
+	int			ishs;
+	int			flags;
+	char		**path;
+	t_heredoc	*hd;
+}	t_pipex;
+
 
 /* fonctions */
 void	ft_pipex(t_pipex *pipex, int ac, char **argv, char **envp);

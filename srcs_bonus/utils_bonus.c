@@ -6,7 +6,7 @@
 /*   By: nwyseur <nwyseur@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 17:55:42 by nwyseur           #+#    #+#             */
-/*   Updated: 2023/02/24 15:04:20 by nwyseur          ###   ########.fr       */
+/*   Updated: 2023/02/27 13:04:35 by nwyseur          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ int	ft_nopath(char **cmd, char **envp)
 			if (access(cmd1, F_OK) == 0)
 				return (1);
 		}
+		ft_freedbltab(cmd);
 		ft_error(ERROR_NOPATH);
 	}
 	if (ft_strchr(cmd[0], '/') != 0)
@@ -55,6 +56,7 @@ int	ft_nopath(char **cmd, char **envp)
 		cmd1 = cmd[0];
 		if (access(cmd1, F_OK) == 0)
 			return (1);
+		ft_freedbltab(cmd);
 		ft_error(ERROR_CMD);
 	}
 	return (0);
@@ -67,7 +69,7 @@ char	*ft_verifpath(t_pipex *pipex, char **cmd, char **envp)
 	char	*tmp;
 
 	if (ft_nopath(cmd, envp) == 1)
-		return (cmd[0]);
+		return (pipex->path = NULL, cmd[0]);
 	pipex->path = ft_split(ft_findpath(envp), ':');
 	i = 0;
 	tmp = ft_strjoin(pipex->path[0], "/");

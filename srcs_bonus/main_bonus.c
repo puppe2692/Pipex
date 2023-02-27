@@ -6,7 +6,7 @@
 /*   By: nwyseur <nwyseur@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 10:56:29 by nwyseur           #+#    #+#             */
-/*   Updated: 2023/02/23 11:49:48 by nwyseur          ###   ########.fr       */
+/*   Updated: 2023/02/27 15:29:58 by nwyseur          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	first_child_process(t_pipex *pipex, char **cmd, char **envp)
 		ft_closepipethree(pfd[0], pfd[1], pipex->prevfd);
 		cmd1 = ft_verifpath(pipex, cmd, envp);
 		execve(cmd1, cmd, envp);
-		ft_freecmderr(cmd1, cmd, pipex);
+		ft_freecmderr(NULL, cmd, pipex);
 		ft_error(ERROR_EXECVE);
 	}
 	close(pipex->prevfd);
@@ -58,11 +58,9 @@ void	last_child_process(t_pipex *pipex, char **cmd, char **envp)
 		close(pipex->prevfd);
 		close(pipex->outfd);
 		cmd2 = ft_verifpath(pipex, cmd, envp);
-		if (execve(cmd2, cmd, envp) < 0)
-		{
-			ft_freecmderr(cmd2, cmd, pipex);
-			ft_error(ERROR_EXECVE);
-		}
+		execve(cmd2, cmd, envp);
+		ft_freecmderr(NULL, cmd, pipex);
+		ft_error(ERROR_EXECVE);
 	}
 	close(pipex->prevfd);
 }
@@ -89,7 +87,8 @@ void	ft_pipex(t_pipex *pipex, int ac, char **argv, char **envp)
 			ft_childistrib(pipex, argv[i + 2], envp, &first_child_process);
 		else if (i == ac - 4)
 		{
-			pipex->outfd = open(argv[ac - 1], O_CREAT | O_RDWR | O_TRUNC, 0644);
+			pipex->outfd = open(argv[ac - 1], O_CREAT | O_RDWR
+					| pipex->flags, 0644);
 			if (pipex->outfd < 0)
 			{
 				close(pipex->prevfd);
@@ -113,9 +112,13 @@ int	main(int argc, char **argv, char **envp)
 	if ((pipex.ishs == 1 && argc < 6))
 		ft_errorparam(ERROR_ARG);
 	if (pipex.ishs == 1)
+	{
+		pipex.flags = O_APPEND;
 		ft_heredoc(&pipex, argc, argv, envp);
+	}
 	else
 	{
+		pipex.flags = O_TRUNC;
 		pipex.infd = open(argv[1], O_RDONLY);
 		ft_pipex(&pipex, argc, argv, envp);
 		close(pipex.outfd);
