@@ -6,7 +6,7 @@
 /*   By: nwyseur <nwyseur@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 10:56:29 by nwyseur           #+#    #+#             */
-/*   Updated: 2023/02/27 15:29:58 by nwyseur          ###   ########.fr       */
+/*   Updated: 2023/02/28 15:48:00 by nwyseur          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,9 @@ void	ft_pipex(t_pipex *pipex, int ac, char **argv, char **envp)
 {
 	int		i;
 
-	i = 0;
+	i = -1;
 	pipex->prevfd = pipex->infd;
-	while (i < ac - 3)
+	while (++i < ac - 3)
 	{
 		if (i < ac - 4)
 			ft_childistrib(pipex, argv[i + 2], envp, &first_child_process);
@@ -92,11 +92,12 @@ void	ft_pipex(t_pipex *pipex, int ac, char **argv, char **envp)
 			if (pipex->outfd < 0)
 			{
 				close(pipex->prevfd);
+				if (pipex->ishs == 1 && pipex->hd != NULL)
+					free(pipex->hd->hdav);
 				ft_error(ERROR_OPEN);
 			}
 			ft_childistrib(pipex, argv[i + 2], envp, &last_child_process);
 		}
-		i++;
 	}
 	while (wait(NULL) != -1)
 		;

@@ -6,7 +6,7 @@
 /*   By: nwyseur <nwyseur@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 10:57:35 by nwyseur           #+#    #+#             */
-/*   Updated: 2023/02/23 10:28:16 by nwyseur          ###   ########.fr       */
+/*   Updated: 2023/02/28 17:07:44 by nwyseur          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,12 @@ typedef struct s_pipex
 	int		infd;
 	int		outfd;
 	char	**path;
+	int		test;
 
 }	t_pipex;
 
 /* fonctions */
-void	ft_pipex(t_pipex *pipex, char **argv, char **envp, int argc);
+int		ft_pipex(t_pipex *pipex, char **argv, char **envp, int argc);
 void	ft_childistrib(t_pipex *pipex, char *argv, char **envp,
 			void (*pf)(t_pipex *, char **, char **));
 void	first_child_process(t_pipex *pipex, char **cmd, char **envp);

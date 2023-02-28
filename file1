@@ -1,1 +1,6 @@
-bonjour, je suis
+bonjour, je suis une burne
+./pipex file1 cat "grep e" file2
+valgrind ./pipex file1 cat "grep -j" file2
+valgrind ./pipex file1 ls  "grep e" file2
+ ./pipex file1 ls  ./ls file2 
+ valgrind ./pipex file1 cat ct file2

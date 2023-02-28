@@ -6,7 +6,7 @@
 /*   By: nwyseur <nwyseur@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/20 11:53:50 by nwyseur           #+#    #+#             */
-/*   Updated: 2023/02/27 15:39:54 by nwyseur          ###   ########.fr       */
+/*   Updated: 2023/02/28 15:48:16 by nwyseur          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ typedef struct s_pipex
 	char		**path;
 	t_heredoc	*hd;
 }	t_pipex;
-
 
 /* fonctions */
 void	ft_pipex(t_pipex *pipex, int ac, char **argv, char **envp);

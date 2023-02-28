@@ -6,7 +6,7 @@
 /*   By: nwyseur <nwyseur@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 10:56:29 by nwyseur           #+#    #+#             */
-/*   Updated: 2023/02/27 12:49:32 by nwyseur          ###   ########.fr       */
+/*   Updated: 2023/02/28 17:50:35 by nwyseur          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ void	first_child_process(t_pipex *pipex, char **cmd, char **envp)
 	close(pipex->infd);
 	cmd1 = ft_verifpath(pipex, cmd, envp);
 	execve(cmd1, cmd, envp);
+	if (pipex->test == 1) // ici
+		free(cmd1); // ici
 	ft_freecmderr(NULL, cmd, pipex);
 	ft_error(ERROR_EXECVE);
 }
@@ -48,6 +50,8 @@ void	second_child_process(t_pipex *pipex, char **cmd, char **envp)
 	close(pipex->outfd);
 	cmd2 = ft_verifpath(pipex, cmd, envp);
 	execve(cmd2, cmd, envp);
+	if (pipex->test == 1) // ici
+		free(cmd2); // ici
 	ft_freecmderr(NULL, cmd, pipex);
 	ft_error(ERROR_EXECVE);
 }
@@ -62,7 +66,7 @@ void	ft_childistrib(t_pipex *pipex, char *argv, char **envp,
 	ft_freedbltab(cmd);
 }
 
-void	ft_pipex(t_pipex *pipex, char **argv, char **envp, int argc)
+int	ft_pipex(t_pipex *pipex, char **argv, char **envp, int argc)
 {
 	int		status;
 
@@ -87,6 +91,7 @@ void	ft_pipex(t_pipex *pipex, char **argv, char **envp, int argc)
 	ft_closepipe(pipex);
 	waitpid(pipex->pid1, &status, 0);
 	waitpid(pipex->pid2, &status, 0);
+	return (WEXITSTATUS(status));
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -94,7 +99,8 @@ int	main(int argc, char **argv, char **envp)
 	t_pipex	pipex;
 
 	if (argc != 5)
-		ft_error(ERROR_ARG);
+		ft_errorparam(ERROR_ARG);
 	pipex.infd = open(argv[1], O_RDONLY);
-	ft_pipex(&pipex, argv, envp, argc);
+	pipex.test = 0;
+	return (ft_pipex(&pipex, argv, envp, argc));
 }

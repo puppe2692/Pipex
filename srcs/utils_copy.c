@@ -6,7 +6,7 @@
 /*   By: nwyseur <nwyseur@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 17:55:42 by nwyseur           #+#    #+#             */
-/*   Updated: 2023/02/27 13:03:44 by nwyseur          ###   ########.fr       */
+/*   Updated: 2023/02/28 17:33:20 by nwyseur          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,5 +88,5 @@ char	*ft_verifpath(t_pipex *pipex, char **cmd, char **envp)
 		ft_error(ERROR_CMD);
 	}
 	ft_freedbltab(pipex->path);
-	return (cmd1);
+	return (pipex->test = 1, cmd1);
 }

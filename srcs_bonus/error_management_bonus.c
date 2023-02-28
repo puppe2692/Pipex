@@ -6,7 +6,7 @@
 /*   By: nwyseur <nwyseur@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 14:46:35 by nwyseur           #+#    #+#             */
-/*   Updated: 2023/02/27 14:47:58 by nwyseur          ###   ########.fr       */
+/*   Updated: 2023/02/28 10:53:35 by nwyseur          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,9 @@ void	ft_errorfile(char *error, char **cmd, int *pfd)
 
 void	ft_errorparam(char *error)
 {
+	errno = EINVAL;
 	perror(error);
-	exit(1);
+	exit(127);
 }
 
 void	ft_closepipe(int a, int b)
