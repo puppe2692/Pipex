@@ -6,7 +6,7 @@
 /*   By: nwyseur <nwyseur@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 10:56:29 by nwyseur           #+#    #+#             */
-/*   Updated: 2023/02/28 17:50:35 by nwyseur          ###   ########.fr       */
+/*   Updated: 2023/03/01 11:35:47 by nwyseur          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,16 @@ void	first_child_process(t_pipex *pipex, char **cmd, char **envp)
 		ft_error(ERROR_OPE);
 	}
 	if (dup2(pipex->infd, STDIN_FILENO) < 0)
-		ft_error(ERROR_DUP);
+		ft_errordup(ERROR_DUP, cmd, pipex, 0);
 	if (dup2(pipex->pfd[1], STDOUT_FILENO) < 0)
-		ft_error(ERROR_DUP);
+		ft_errordup(ERROR_DUP, cmd, pipex, 0);
 	close(pipex->pfd[0]);
 	close(pipex->pfd[1]);
 	close(pipex->infd);
 	cmd1 = ft_verifpath(pipex, cmd, envp);
 	execve(cmd1, cmd, envp);
-	if (pipex->test == 1) // ici
-		free(cmd1); // ici
+	if (pipex->test == 1)
+		free(cmd1);
 	ft_freecmderr(NULL, cmd, pipex);
 	ft_error(ERROR_EXECVE);
 }
@@ -42,16 +42,16 @@ void	second_child_process(t_pipex *pipex, char **cmd, char **envp)
 	char	*cmd2;
 
 	if (dup2(pipex->pfd[0], STDIN_FILENO) < 0)
-		ft_error(ERROR_DUP);
+		ft_errordup(ERROR_DUP, cmd, pipex, 1);
 	if (dup2(pipex->outfd, STDOUT_FILENO) < 0)
-		ft_error(ERROR_DUP);
+		ft_errordup(ERROR_DUP, cmd, pipex, 1);
 	close(pipex->pfd[0]);
 	close(pipex->pfd[1]);
 	close(pipex->outfd);
 	cmd2 = ft_verifpath(pipex, cmd, envp);
 	execve(cmd2, cmd, envp);
-	if (pipex->test == 1) // ici
-		free(cmd2); // ici
+	if (pipex->test == 1)
+		free(cmd2);
 	ft_freecmderr(NULL, cmd, pipex);
 	ft_error(ERROR_EXECVE);
 }

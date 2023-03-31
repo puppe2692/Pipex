@@ -6,7 +6,7 @@
 /*   By: nwyseur <nwyseur@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 10:57:35 by nwyseur           #+#    #+#             */
-/*   Updated: 2023/02/28 17:07:44 by nwyseur          ###   ########.fr       */
+/*   Updated: 2023/03/01 11:17:39 by nwyseur          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,6 @@ void	ft_freedbltab(char **tab);
 void	ft_closepipe(t_pipex *pipex);
 void	ft_closepipeint(int a, int b);
 void	ft_freecmderr(char *cmd1, char **cmd, t_pipex *pipex);
+void	ft_errordup(char *error, char **cmd, t_pipex *pipex, int a);
 
 #endif

@@ -45,7 +45,7 @@ BONUS_OBJS	:= ${BONUS_SRCS:.c=.o}
 BONUS_HEADER := $(addprefix ${INC_DIR}, ${HEADER_FILE_BONUS})
 
 CC			:= cc
-CC_FLAGS	:= -Wall -Wextra -Werror -g3
+CC_FLAGS	:= -Wall -Wextra -Werror
 
 RM			:= rm -f
 

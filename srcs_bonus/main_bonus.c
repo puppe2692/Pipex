@@ -6,7 +6,7 @@
 /*   By: nwyseur <nwyseur@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 10:56:29 by nwyseur           #+#    #+#             */
-/*   Updated: 2023/02/28 15:48:00 by nwyseur          ###   ########.fr       */
+/*   Updated: 2023/03/01 11:42:03 by nwyseur          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	first_child_process(t_pipex *pipex, char **cmd, char **envp)
 			ft_errorfile(ERROR_OPE, cmd, pfd);
 		if (dup2(pipex->prevfd, STDIN_FILENO) < 0
 			|| dup2(pfd[1], STDOUT_FILENO) < 0)
-			ft_error(ERROR_DUP);
+			ft_errordupf(cmd, pfd[0], pfd[1], pipex);
 		ft_closepipethree(pfd[0], pfd[1], pipex->prevfd);
 		cmd1 = ft_verifpath(pipex, cmd, envp);
 		execve(cmd1, cmd, envp);
@@ -52,9 +52,9 @@ void	last_child_process(t_pipex *pipex, char **cmd, char **envp)
 	else if (pid == 0)
 	{
 		if (dup2(pipex->prevfd, STDIN_FILENO) < 0)
-			ft_error(ERROR_DUP);
+			ft_errordupl(cmd, pipex);
 		if (dup2(pipex->outfd, STDOUT_FILENO) < 0)
-			ft_error(ERROR_DUP);
+			ft_errordupl(cmd, pipex);
 		close(pipex->prevfd);
 		close(pipex->outfd);
 		cmd2 = ft_verifpath(pipex, cmd, envp);
